@@ -20,6 +20,7 @@ import entidad.Usuario;
  * Servlet implementation class principal
  */
 
+//http://localhost:8080/Ejercicio21/usuarios/login?email=concemar&password=12345
 
 @WebServlet("/usuarios/login")
 public class validarServlet extends HttpServlet {
@@ -43,17 +44,7 @@ public class validarServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		daoUsuario = new DaoUsuarioMySQL();
-		boolean validado;
-		Usuario usuario = new Usuario(request.getParameter("email").toString(), request.getParameter("password").toString());
 		
-		validado = daoUsuario.autenticado(usuario);
-		JSONObject jo = new JSONObject();
-		jo.put("validado", validado);
-		
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(jo.toString());
 		
 	}
     

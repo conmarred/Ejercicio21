@@ -35,7 +35,7 @@ public class Main {
 			System.out.println("Password");
 			password=sc.next();
 			cont++;
-			validado = validar(email,password);
+			validado = gp.validar(email,password);
 			if(validado && cont <3) {
 				System.out.println("Identificacion correcta");
 			}
@@ -190,37 +190,7 @@ public class Main {
 		System.out.println("Fin de programa");
 
 	}
-	
-	private static boolean validar(String email, String password) {
-		try {
-			//Se utiliza principalmente para consumir servicios REST
-			//Tambien podemos consumir cualquier tipo de servidor web
-			HttpRequest request = HttpRequest.newBuilder()
-					  .uri(new URI("http://localhost:8080/Ejercicio21/usuarios/login?email="+email+"&password="
-							  +password))
-					  .GET()
-					  .build();
-			
-			HttpClient client = HttpClient.newHttpClient();
-			
-			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-			JSONObject jo = new JSONObject(response.body());
-			return jo.getBoolean("validado");
-		
-			
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-		
-	}
+
 
 	private static void menu() {
 		System.out.println("Elija una opción:");

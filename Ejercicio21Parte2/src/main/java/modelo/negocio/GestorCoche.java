@@ -3,7 +3,15 @@ package modelo.negocio;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -122,6 +130,37 @@ public class GestorCoche {
         generator.writeEndArray();
         generator.flush();
         
+	}
+	
+	public boolean validar(String email, String password) {
+		try {
+			//Se utiliza principalmente para consumir servicios REST
+			//Tambien podemos consumir cualquier tipo de servidor web
+			HttpRequest request = HttpRequest.newBuilder()
+					  .uri(new URI("http://localhost:8080/Ejercicio21/usuarios/login?email="+email+"&password="
+							  +password))
+					  .GET()
+					  .build();
+			
+			HttpClient client = HttpClient.newHttpClient();
+			
+			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+			JSONObject jo = new JSONObject(response.body());
+			return jo.getBoolean("validado");
+		
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
 	}
 	
 	
